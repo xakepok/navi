@@ -49,7 +49,9 @@ namespace navi
             imm.HideSoftInputFromWindow(FindViewById<TextView>(Resource.Id.editText1).WindowToken, 0);
             imm.HideSoftInputFromWindow(FindViewById<TextView>(Resource.Id.editText3).WindowToken, 0);
             WebView webView = FindViewById<WebView>(Resource.Id.webView1);
+            webView.Visibility = ViewStates.Invisible;
             webView.LoadUrl(url);
+            webView.Visibility = ViewStates.Visible;
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)
@@ -81,17 +83,23 @@ namespace navi
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-    }
 
-    public class Vehicle
-    {
-        public string dat { get; set; }
-        public string type { get; set; }
-        public string num_park { get; set; }
-        public string num_gos { get; set; }
-        public string route { get; set; }
-        public string last_sync { get; set; }
-        public string tm { get; set; }
+        protected override void OnResume()
+        {
+            base.OnResume();
+            InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+            imm.HideSoftInputFromWindow(FindViewById<TextView>(Resource.Id.editText1).WindowToken, 0);
+            imm.HideSoftInputFromWindow(FindViewById<TextView>(Resource.Id.editText3).WindowToken, 0);
+        }
+
+        protected override void OnRestoreInstanceState(Bundle savedInstanceState)
+        {
+            base.OnRestoreInstanceState(savedInstanceState);
+            InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+            imm.HideSoftInputFromWindow(FindViewById<TextView>(Resource.Id.editText1).WindowToken, 0);
+            imm.HideSoftInputFromWindow(FindViewById<TextView>(Resource.Id.editText3).WindowToken, 0);
+        }
+
     }
 }
 
